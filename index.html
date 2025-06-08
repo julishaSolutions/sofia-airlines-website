@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOFIAAIRLINES | THINK FORWARD, WE SERVE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Sofia Airlines Official (Dark Blue, Yellow, Light Blue) -->
+    <!-- Application Structure Plan: A thematic, single-page storytelling application designed for B2B cargo clients. The flow is structured to build trust and present a compelling business case: 1. Hero (Value Proposition), 2. Commitment (Trust Pillars: Safety, Quality, Customer Focus), 3. The Opportunity (Interactive data on market gaps), 4. Services (Core offerings), 5. Our Network (Geographic focus), 6. Contact/Quote (Call to Action). This narrative structure is more persuasive and user-friendly than a traditional multi-page site, guiding the user logically from the 'why' to the 'how'. -->
+    <!-- Visualization & Content Choices: Juba Market Gap -> Goal: Compare -> Viz: Stacked Bar Chart (Chart.js/Canvas) to visually show unfulfilled capacity. Africa Growth Stats -> Goal: Inform -> Viz: High-impact stat cards (HTML/CSS) for quick comprehension. Core Principles -> Goal: Organize -> Viz: Interactive tab-like component (HTML/CSS/JS) to present detailed information without clutter. These choices prioritize data clarity and user engagement, avoiding SVG/Mermaid as required. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 500px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 500px;
+            }
+        }
+        :root {
+            --brand-blue: #0A246A;
+            --brand-yellow: #FFC72C;
+            --brand-lightblue: #00A9E0;
+        }
+        .bg-brand-yellow { background-color: var(--brand-yellow); }
+        .hover\:bg-brand-yellow-dark:hover { background-color: #e6b327; }
+        .text-brand-yellow { color: var(--brand-yellow); }
+        .border-brand-yellow { border-color: var(--brand-yellow); }
+        .hover\:border-brand-yellow-light:hover { border-color: #ffd56b; }
+        .text-brand-blue { color: var(--brand-blue); }
+        .nav-link.active {
+            color: var(--brand-yellow);
+            font-weight: 600;
+        }
+        .focus\:ring-brand-yellow:focus {
+            --tw-ring-color: var(--brand-yellow);
+        }
+         .focus\:border-brand-yellow:focus {
+            --tw-border-opacity: 1;
+            border-color: var(--brand-yellow);
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 transition-all duration-300 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                 <a href="#" class="flex items-center">
+                    <img src="https://res.cloudinary.com/dx6zxdlts/image/upload/v1749400154/SofiaAirlines_Logo_png_xjt0d7.png" alt="Sofia Airlines Logo" class="h-10 w-auto">
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <a href="#commitment" class="nav-link hover:text-brand-yellow transition-colors">Our Commitment</a>
+                <a href="#opportunity" class="nav-link hover:text-brand-yellow transition-colors">Market Opportunity</a>
+                <a href="#services" class="nav-link hover:text-brand-yellow transition-colors">Services</a>
+                <a href="#network" class="nav-link hover:text-brand-yellow transition-colors">Network</a>
+                <a href="#contact" class="bg-brand-yellow text-brand-blue px-4 py-2 rounded-full hover:bg-brand-yellow-dark transition-all shadow-sm font-semibold">Get a Quote</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-slate-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2">
+            <a href="#commitment" class="block nav-link hover:text-brand-yellow transition-colors">Our Commitment</a>
+            <a href="#opportunity" class="block nav-link hover:text-brand-yellow transition-colors">Market Opportunity</a>
+            <a href="#services" class="block nav-link hover:text-brand-yellow transition-colors">Services</a>
+            <a href="#network" class="block nav-link hover:text-brand-yellow transition-colors">Network</a>
+            <a href="#contact" class="block bg-brand-yellow text-brand-blue px-4 py-2 rounded-full hover:bg-brand-yellow-dark transition-all w-full text-center mt-2 font-semibold">Get a Quote</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="relative bg-slate-800 text-white py-20 md:py-32">
+            <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=2070&auto=format&fit=crop');"></div>
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight">Reliable Air Cargo for a Growing Africa</h1>
+                <p class="mt-4 text-lg md:text-xl text-slate-300 max-w-3xl mx-auto">THINK FORWARD, WE SERVE. <br>Introducing European standards of safety and efficiency to regional air transport.</p>
+                <div class="mt-8">
+                    <a href="#contact" class="bg-brand-yellow text-brand-blue px-8 py-3 rounded-full hover:bg-brand-yellow-dark transition-all text-lg font-semibold shadow-lg">Request a Cargo Quote</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="commitment" class="py-20 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-blue">Our Unwavering Commitment</h2>
+                    <p class="mt-4 text-lg text-slate-600">Our entire operation is built on a foundation of core principles designed to deliver unparalleled service. We don't just move cargo; we build partnerships based on trust, quality, and a relentless focus on your success.</p>
+                </div>
+                <div class="mt-16 max-w-4xl mx-auto">
+                    <div class="flex flex-col md:flex-row border-b border-slate-200">
+                        <button data-tab="safety" class="tab-button flex-1 p-4 text-lg font-semibold border-b-4 border-brand-yellow text-brand-yellow">
+                            Safety First
+                        </button>
+                        <button data-tab="quality" class="tab-button flex-1 p-4 text-lg font-semibold border-b-4 border-transparent text-slate-500 hover:border-brand-yellow-light hover:text-slate-800 transition-all">
+                            European Quality
+                        </button>
+                        <button data-tab="customer" class="tab-button flex-1 p-4 text-lg font-semibold border-b-4 border-transparent text-slate-500 hover:border-brand-yellow-light hover:text-slate-800 transition-all">
+                            Customer-Centric
+                        </button>
+                    </div>
+                    <div class="mt-8">
+                        <div id="safety-content" class="tab-content">
+                            <h3 class="text-2xl font-bold text-brand-blue mb-4">Safety is Our #1 Priority</h3>
+                            <p class="text-slate-600 leading-relaxed">Safety is not just a slogan; it is the core of our operational philosophy. We are implementing written operational procedures and manuals for all personnel to increase the safety level of our operations beyond the competition. Every flight, every piece of cargo, and every decision is governed by the highest safety standards to ensure the complete protection of your assets and our team.</p>
+                        </div>
+                        <div id="quality-content" class="tab-content hidden">
+                            <h3 class="text-2xl font-bold text-brand-blue mb-4">Quality Defined by European Standards</h3>
+                            <p class="text-slate-600 leading-relaxed">We are introducing a unified, professional structure by applying proven European standards to air transport. This includes adopting the world-renowned <strong>Lufthansa model of training</strong> for our entire team. From pilots to ground crew, our personnel undergo mandatory professional training, scheduled seminars, and rigorous performance assessments to guarantee knowledge, professionalism, and excellence in every aspect of our operations.</p>
+                        </div>
+                        <div id="customer-content" class="tab-content hidden">
+                             <h3 class="text-2xl font-bold text-brand-blue mb-4">A Relentless Focus on Customer Satisfaction</h3>
+                            <p class="text-slate-600 leading-relaxed">We aim at our customers first. Our second priority, right after safety, is ensuring your complete satisfaction. We achieve this through coordinated teamwork, reliability, efficiency, and a service-oriented approach that anticipates your needs. We partner for mutual benefit, acting with passion to deliver excellence and drive change in the regional logistics landscape.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="opportunity" class="py-20 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-blue">A Market Primed for Growth</h2>
+                    <p class="mt-4 text-lg text-slate-600">Our strategy is founded on deep local market knowledge and extensive data analysis. We are not just participating in the market; we are addressing a significant, proven service gap and capitalizing on the immense growth potential across the region.</p>
+                </div>
+                <div class="mt-16 grid md:grid-cols-2 gap-12 items-center">
+                    <div class="bg-white p-8 rounded-xl shadow-md">
+                        <h3 class="text-2xl font-bold text-brand-blue">The Juba Cargo Opportunity</h3>
+                        <p class="mt-2 text-slate-600">Analysis of the Juba air cargo market reveals a substantial and consistent gap between demand and available capacity. The chart below visualizes this unfulfilled demand, representing a clear opportunity we are equipped to service from day one.</p>
+                        <div class="mt-6 chart-container">
+                            <canvas id="jubaMarketChart"></canvas>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-4 text-center">Data based on a 2023 survey of 9 of 20 vendors in Juba. The actual unfulfilled demand is likely higher.</p>
+                    </div>
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-bold text-brand-blue text-center md:text-left">Africa: The Epicenter of Air Cargo Growth</h3>
+                         <div class="bg-white p-6 rounded-xl shadow-md">
+                            <p class="text-4xl font-bold text-brand-yellow">22.0%</p>
+                            <p class="mt-1 font-semibold text-brand-blue">Year-on-Year Demand Growth</p>
+                            <p class="text-sm text-slate-500">African cargo experienced the strongest growth of all regions (Feb 2024).</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <p class="text-4xl font-bold text-brand-yellow">42.3%</p>
+                            <p class="mt-1 font-semibold text-brand-blue">Intra-Africa Trade Lane Growth</p>
+                            <p class="text-sm text-slate-500">Demonstrates the burgeoning trade within the continent (Feb 2024).</p>
+                        </div>
+                         <div class="bg-white p-6 rounded-xl shadow-md">
+                            <p class="text-4xl font-bold text-brand-yellow">4.8%</p>
+                            <p class="mt-1 font-semibold text-brand-blue">Projected Annual Growth</p>
+                            <p class="text-sm text-slate-500">IATA projects Africa will have the world's fastest cargo growth by 2039.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-20 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-blue">Our Core Service: Air Cargo</h2>
+                    <p class="mt-4 text-lg text-slate-600">We specialize in providing reliable, secure, and efficient air freight services tailored to the needs of the regional market. Our operations are designed for flexibility and cost-effectiveness, ensuring your cargo arrives on time, every time.</p>
+                </div>
+                <div class="mt-16 max-w-5xl mx-auto grid md:grid-cols-5 gap-8 items-center">
+                    <div class="md:col-span-2">
+                        <img src="https://res.cloudinary.com/dx6zxdlts/image/upload/v1749403825/pexels-hellojoshwithers-16643507_boipuo.jpg" alt="An-26 Aircraft" class="rounded-xl shadow-lg w-full h-auto object-cover">
+                    </div>
+                    <div class="md:col-span-3">
+                        <h3 class="text-2xl font-bold text-brand-blue">Our Fleet: The An-26 Workhorse</h3>
+                        <p class="mt-4 text-slate-600 leading-relaxed">We begin operations with the Antonov An-26, a versatile and robust aircraft ideally suited for the domestic cargo market. Its ability to operate from unpaved runways and its efficient, low-cost operation make it the perfect platform to provide reliable service across the region.</p>
+                        <div class="mt-6 space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-brand-yellow">
+                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <p class="ml-3 text-slate-600"><strong>General Cargo:</strong> Secure and efficient transport for a wide variety of goods.</p>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-brand-yellow">
+                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <p class="ml-3 text-slate-600"><strong>Specialized Shipments:</strong> Capabilities to handle unique or sensitive cargo with care.</p>
+                            </div>
+                            <div class="flex items-start">
+                                 <div class="flex-shrink-0 h-6 w-6 text-brand-yellow">
+                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <p class="ml-3 text-slate-600"><strong>Future Expansion:</strong> As we establish our operations, we will expand our fleet and services to dominate the market and capitalize on new opportunities.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="network" class="py-20 md:py-24">
+            <div class="container mx-auto px-6">
+                 <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-blue">Our Network</h2>
+                    <p class="mt-4 text-lg text-slate-600">We are launching with a strategic focus on the domestic South Sudan market, centered around our hub in Juba. This initial network is designed for maximum impact and reliability, with plans for rapid expansion into the broader North African region.</p>
+                </div>
+                <div class="mt-16 bg-slate-800 rounded-xl p-4 shadow-lg">
+                    <div class="bg-slate-700 rounded-lg h-96 w-full flex items-center justify-center">
+                         <p class="text-white text-2xl font-semibold">Interactive Network Map Coming Soon</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-blue">Let's Get Your Cargo Moving</h2>
+                    <p class="mt-4 text-lg text-slate-600">Ready to experience a new standard in air cargo? Reach out to our team for a quote or for any inquiries. We're here to serve you.</p>
+                </div>
+                <div class="mt-16 max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
+                    <div class="bg-slate-50 p-8 rounded-xl">
+                        <h3 class="text-xl font-bold text-brand-blue">Request a Quote</h3>
+                        <form class="mt-6 space-y-4">
+                            <input type="text" placeholder="Your Name" class="w-full p-3 rounded-md border border-slate-300 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow outline-none transition">
+                             <input type="email" placeholder="Email Address" class="w-full p-3 rounded-md border border-slate-300 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow outline-none transition">
+                             <textarea placeholder="Cargo details (type, weight, origin, destination)..." rows="4" class="w-full p-3 rounded-md border border-slate-300 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow outline-none transition"></textarea>
+                            <button type="submit" class="w-full bg-brand-yellow text-brand-blue p-3 rounded-md font-semibold hover:bg-brand-yellow-dark transition-all shadow">Submit Request</button>
+                        </form>
+                    </div>
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-bold text-brand-blue">Contact Information</h3>
+                        <div>
+                            <h4 class="font-semibold text-brand-blue">Address</h4>
+                            <p class="text-slate-600 mt-1">Room 520 CONCORD HOTEL GUEST HOUSE COMPLEX<br>Hai Amarat - Airport Road - Next to Crown Hotel<br>Juba - South Sudan</p>
+                        </div>
+                         <div>
+                            <h4 class="font-semibold text-brand-blue">Phone</h4>
+                            <p class="text-slate-600 mt-1">+211 922 552 667</p>
+                            <p class="text-slate-600">+211 910 526 488</p>
+                        </div>
+                         <div>
+                            <h4 class="font-semibold text-brand-blue">Email</h4>
+                            <p class="text-slate-600 mt-1">General: sofiaairlines1@gmail.com</p>
+                            <p class="text-slate-600">Management: sofiaairlinesmanagement@gmail.com</p>
+                             <p class="text-slate-600">CEO: sofiaairlinesceo@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+             <div class="flex justify-center mb-4">
+                <img src="https://res.cloudinary.com/dx6zxdlts/image/upload/v1749400154/SofiaAirlines_Logo_png_xjt0d7.png" alt="Sofia Airlines Logo Footer" class="h-10 w-auto">
+             </div>
+            <p class="mt-2 text-sm text-slate-400">THINK FORWARD, WE SERVE.</p>
+            <p class="mt-4 text-xs text-slate-500">&copy; 2024 SOFIA AIRLINES LTD. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const brandColors = {
+                blue: '#3b82f6',
+                yellow: '#FFC72C',
+                yellowDark: '#e6b327',
+                textBlue: '#0A246A'
+            };
+
+            const jubaMarketData = {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [
+                    {
+                        label: 'Available Capacity (MT)',
+                        data: [290, 260, 315, 380, 380, 360, 365, 350, 355, 340, 320, 325],
+                        backgroundColor: brandColors.blue,
+                        borderWidth: 1,
+                        borderColor: '#1e40af'
+                    },
+                    {
+                        label: 'Unfulfilled Capacity (MT)',
+                        data: [290, 310, 255, 270, 280, 260, 275, 260, 245, 240, 230, 215],
+                        backgroundColor: brandColors.yellow,
+                        borderWidth: 1,
+                        borderColor: brandColors.yellowDark
+                    }
+                ]
+            };
+
+            const marketDemandData = [580, 570, 570, 650, 660, 620, 640, 610, 600, 580, 550, 540];
+
+            const ctx = document.getElementById('jubaMarketChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: jubaMarketData,
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Juba Cargo Market: Demand vs. Capacity (Metric Tons, 2023)',
+                            font: { size: 16 },
+                            color: '#334155', // slate-700
+                            padding: { bottom: 20 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y + ' MT';
+                                    }
+                                    return label;
+                                },
+                                afterLabel: function(context) {
+                                    if (context.datasetIndex === 1) {
+                                        const totalDemand = marketDemandData[context.dataIndex];
+                                        return `Total Demand: ${totalDemand} MT`;
+                                    }
+                                    return '';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: { display: false },
+                            ticks: { color: '#475569' } // slate-600
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Metric Tons (MT)',
+                                color: '#475569'
+                            },
+                            grid: { color: '#e2e8f0' }, // slate-200
+                            ticks: { color: '#475569' }
+                        }
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                }
+            });
+
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.dataset.tab;
+
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('border-brand-yellow', 'text-brand-yellow');
+                        btn.classList.add('border-transparent', 'text-slate-500');
+                    });
+                    
+                    button.classList.add('border-brand-yellow', 'text-brand-yellow');
+                    button.classList.remove('border-transparent', 'text-slate-500');
+
+                    tabContents.forEach(content => {
+                        if (content.id === `${tabId}-content`) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mobileMenu.classList.contains('hidden') === false) {
+                         mobileMenu.classList.add('hidden');
+                    }
+                })
+            });
+        });
+    </script>
+    <script type="text/javascript">
+  (function(d, t) {
+      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      v.onload = function() {
+        window.voiceflow.chat.load({
+          verify: { projectID: '6845d0d13b0848dfa49138c0' },
+          url: 'https://general-runtime.voiceflow.com',
+          versionID: 'production',
+          voice: {
+            url: "https://runtime-api.voiceflow.com"
+          }
+        });
+      }
+      v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+  })(document, 'script');
+</script>
+</body>
+</html>
